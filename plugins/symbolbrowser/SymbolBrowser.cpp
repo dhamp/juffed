@@ -97,8 +97,10 @@ SymbolBrowser::SymbolBrowser(): QObject(), JuffPlugin(), panel(NULL) {
  *
  *********************************************************/
 SymbolBrowser::~SymbolBrowser(){
-    if ( panel != NULL )
-        delete panel;
+    if ( panel != NULL ) {
+        panel->deleteLater();
+        panel = NULL;
+    }
 }
 
 
