@@ -1244,6 +1244,8 @@ void SciDoc::setLexer(const QString& lexName) {
 	int_->syntax_ = lexName;
 	QsciLexer* lexer = LexerStorage::instance()->lexer(lexName);
 	loadAutocompletionAPI(lexName, lexer);
+	QColor bgColor = EditorSettings::get(EditorSettings::DefaultBgColor);
+	lexer->setPaper(bgColor);
 	int_->edit1_->setLexer(lexer);
 	int_->edit2_->setLexer(lexer);
 }
@@ -1377,6 +1379,12 @@ void SciDoc::applySettings() {
 	QsciScintilla* edits[] = { int_->edit1_, int_->edit2_, NULL };
 	for (int i = 0; edits[i] != NULL; ++i ) {
 		QsciScintilla* edit = edits[i];
+
+		if (edit->lexer()) {
+			edit->lexer()->setPaper(bgColor);
+		} else {
+			edit->setPaper(bgColor);
+		}
 
 		// indents
 		//edit->setTabWidth(EditorSettings::get(EditorSettings::TabWidth));
